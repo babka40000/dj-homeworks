@@ -18,4 +18,4 @@ class StockViewSet(ModelViewSet):
     serializer_class = StockSerializer
 
     filter_backends = [SearchFilter]
-    search_fields = ['id']
+    search_fields = ['products__id']
