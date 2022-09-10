@@ -29,16 +29,16 @@ class AdvertisementSerializer(serializers.ModelSerializer):
         # через методы ViewSet.
         # само поле при этом объявляется как `read_only=True`
 
-        count_of_records = Advertisement.objects.filter(creator=self.context["request"].user, status='OPEN').count()
-        if count_of_records >= 10:
-            raise serializers.ValidationError("Ошибка. Не должно быть больше 10 объявлений")
-
         validated_data["creator"] = self.context["request"].user
         return super().create(validated_data)
 
 
     def validate(self, data):
         """Метод для валидации. Вызывается при создании и обновлении."""
+
+        count_of_records = Advertisement.objects.filter(creator=self.context["request"].user, status='OPEN').count()
+        if count_of_records >= 10:
+            raise serializers.ValidationError("Ошибка. Не должно быть больше 10 объявлений")
 
         if self.context["request"].method != 'POST':
             if self.instance.creator != self.context["request"].user:
