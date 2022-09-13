@@ -40,8 +40,4 @@ class AdvertisementSerializer(serializers.ModelSerializer):
         if count_of_records >= 10:
             raise serializers.ValidationError("Ошибка. Не должно быть больше 10 объявлений")
 
-        if self.context["request"].method != 'POST':
-            if self.instance.creator != self.context["request"].user:
-                raise serializers.ValidationError("Ошибка валидации. Только автор может изменять обьявление")
-
         return data
